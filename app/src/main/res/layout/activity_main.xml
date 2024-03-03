@@ -26,4 +26,70 @@
         android:layout_weight="1"
         android:layout_height="wrap_content"/>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/buttonBitkiler"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="Bitkiler"
+            android:textSize="11sp"
+            android:layout_margin="4dp"
+            android:gravity="center"
+            android:background="#4CAF50"
+            android:textColor="#FFFFFF"/>
+
+        <Button
+            android:id="@+id/buttonTaslar"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="Taşlar"
+            android:textSize="11sp"
+            android:layout_margin="4dp"
+            android:gravity="center"
+            android:background="#4CAF50"
+            android:textColor="#FFFFFF"/>
+
+        <Button
+            android:id="@+id/buttonDualar"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="Dualar"
+            android:textSize="11sp"
+            android:layout_margin="4dp"
+            android:gravity="center"
+            android:background="#4CAF50"
+            android:textColor="#FFFFFF"/>
+
+        <Button
+            android:id="@+id/buttonYaglar"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="Yağlar"
+            android:textSize="11sp"
+            android:layout_margin="4dp"
+            android:gravity="center"
+            android:background="#4CAF50"
+            android:textColor="#FFFFFF" />
+
+        <Button
+            android:id="@+id/buttonCaylar"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="Çaylar"
+            android:textSize="11sp"
+            android:layout_margin="4dp"
+            android:gravity="center"
+            android:background="#4CAF50"
+            android:textColor="#FFFFFF"/>
+    </LinearLayout>
+
 </LinearLayout>
