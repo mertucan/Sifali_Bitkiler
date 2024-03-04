@@ -42,6 +42,8 @@ public class BMI_Activity extends AppCompatActivity {
         buttonCalculateBMI.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                buttonCalculateBMI.setTextColor(myColor);
+                buttonCalculateBMI.setBackgroundColor(Color.WHITE);
                 calculateBMI();
             }
         });
@@ -51,6 +53,8 @@ public class BMI_Activity extends AppCompatActivity {
             public void onClick(View v) {
                 buttonBack.setTextColor(myColor);
                 buttonBack.setBackgroundColor(Color.WHITE);
+                buttonCalculateBMI.setTextColor(Color.WHITE);
+                buttonCalculateBMI.setBackgroundColor(myColor);
                 Intent intent = new Intent(v.getContext(), MainActivity.class);
                 startActivity(intent);
             }

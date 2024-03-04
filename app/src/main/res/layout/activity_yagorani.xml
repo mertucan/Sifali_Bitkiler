@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:gravity="center"
-    tools:context=".BMI_Activity">
+    tools:context=".YagOraniActivity">
 
     <TextView
         android:id="@+id/textViewResult"
@@ -35,13 +35,22 @@
         android:hint="Kilo (kg)"
         android:inputType="numberDecimal"/>
 
+    <EditText
+        android:id="@+id/editTextAge"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:hint="Yaş"
+        android:inputType="number"/>
+
     <Button
-        android:id="@+id/buttonCalculateBMI"
+        android:id="@+id/btnCalculate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="12sp"
-        android:text="BMI Hesapla"
-        android:layout_marginBottom="16dp"/>
+        android:text="Y.O Hesapla"
+        android:layout_marginBottom="16dp" />
 
     <Button
         android:id="@+id/btnBack"
@@ -50,4 +59,5 @@
         android:textSize="12sp"
         android:text="Anasayfa"
         android:layout_marginBottom="16dp"/>
+
 </LinearLayout>

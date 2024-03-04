@@ -41,7 +41,49 @@
         android:layout_marginBottom="16dp"
         android:background="#4CAF50"
         android:padding="12dp"
-        android:text="BMI Hesapla"
+        android:text="Vücut Kitle İndeksi Hesapla"
+        android:textColor="#FFFFFF"
+        android:textSize="18sp" />
+
+    <Button
+        android:id="@+id/buttonBazalMetabolizma"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="24dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginRight="24dp"
+        android:layout_marginBottom="16dp"
+        android:background="#4CAF50"
+        android:padding="12dp"
+        android:text="Bazal Metabolizma Hızı Hesapla"
+        android:textColor="#FFFFFF"
+        android:textSize="18sp" />
+
+    <Button
+        android:id="@+id/buttonYagOrani"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="24dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginRight="24dp"
+        android:layout_marginBottom="16dp"
+        android:background="#4CAF50"
+        android:padding="12dp"
+        android:text="Vücut Yağ Oranı Hesapla"
+        android:textColor="#FFFFFF"
+        android:textSize="18sp" />
+
+    <Button
+        android:id="@+id/buttonKaloriMiktari"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="24dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginRight="24dp"
+        android:layout_marginBottom="16dp"
+        android:background="#4CAF50"
+        android:padding="12dp"
+        android:text="Günlük Kalori Miktarı Hesapla"
         android:textColor="#FFFFFF"
         android:textSize="18sp" />
 

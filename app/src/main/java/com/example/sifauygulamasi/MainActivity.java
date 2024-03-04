@@ -16,6 +16,9 @@ public class MainActivity extends AppCompatActivity {
     Button buttonYaglar;
     Button buttonCaylar;
     Button buttonBMI;
+    Button buttonyagOrani;
+    Button buttonKalori;
+    Button buttonBazal;
     int myColor = Color.parseColor("#4CAF50");
 
     @SuppressLint("WrongViewCast")
@@ -30,6 +33,9 @@ public class MainActivity extends AppCompatActivity {
         buttonYaglar = findViewById(R.id.buttonYaglar);
         buttonCaylar = findViewById(R.id.buttonCaylar);
         buttonBMI = findViewById(R.id.buttonBmiHesapla);
+        buttonBazal = findViewById(R.id.buttonBazalMetabolizma);
+        buttonyagOrani = findViewById(R.id.buttonYagOrani);
+        buttonKalori = findViewById(R.id.buttonKaloriMiktari);
 
         buttonBitkiler.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -141,6 +147,63 @@ public class MainActivity extends AppCompatActivity {
                 buttonDualar.setBackgroundColor(myColor);
 
                 Intent intent = new Intent(v.getContext(), BMI_Activity.class);
+                startActivity(intent);
+            }
+        });
+
+        buttonBazal.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setButtonSelected(buttonBazal);
+
+                buttonTaslar.setTextColor(Color.WHITE);
+                buttonTaslar.setBackgroundColor(myColor);
+                buttonBitkiler.setTextColor(Color.WHITE);
+                buttonBitkiler.setBackgroundColor(myColor);
+                buttonYaglar.setTextColor(Color.WHITE);
+                buttonYaglar.setBackgroundColor(myColor);
+                buttonDualar.setTextColor(Color.WHITE);
+                buttonDualar.setBackgroundColor(myColor);
+
+                Intent intent = new Intent(v.getContext(), BazalActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        buttonyagOrani.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setButtonSelected(buttonyagOrani);
+
+                buttonTaslar.setTextColor(Color.WHITE);
+                buttonTaslar.setBackgroundColor(myColor);
+                buttonBitkiler.setTextColor(Color.WHITE);
+                buttonBitkiler.setBackgroundColor(myColor);
+                buttonYaglar.setTextColor(Color.WHITE);
+                buttonYaglar.setBackgroundColor(myColor);
+                buttonDualar.setTextColor(Color.WHITE);
+                buttonDualar.setBackgroundColor(myColor);
+
+                Intent intent = new Intent(v.getContext(), YagOraniActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        buttonKalori.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setButtonSelected(buttonKalori);
+
+                buttonTaslar.setTextColor(Color.WHITE);
+                buttonTaslar.setBackgroundColor(myColor);
+                buttonBitkiler.setTextColor(Color.WHITE);
+                buttonBitkiler.setBackgroundColor(myColor);
+                buttonYaglar.setTextColor(Color.WHITE);
+                buttonYaglar.setBackgroundColor(myColor);
+                buttonDualar.setTextColor(Color.WHITE);
+                buttonDualar.setBackgroundColor(myColor);
+
+                Intent intent = new Intent(v.getContext(), GunlukKaloriActivity.class);
                 startActivity(intent);
             }
         });

@@ -46,6 +46,18 @@
         <activity android:name=".BMI_Activity">
 
         </activity>
+
+        <activity android:name=".BazalActivity">
+
+        </activity>
+
+        <activity android:name=".YagOraniActivity">
+
+        </activity>
+
+        <activity android:name=".GunlukKaloriActivity">
+
+        </activity>
     </application>
 
 </manifest>

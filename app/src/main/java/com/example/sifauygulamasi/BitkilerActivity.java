@@ -25,6 +25,8 @@ public class BitkilerActivity extends AppCompatActivity {
     Button buttonYaglar;
     Button buttonCaylar;
     Button buttonanaSayfa;
+    Button buttonTemizle;
+    Button buttonEkle;
     ListView plantList;
 
     ArrayList<String> listItem;
@@ -46,6 +48,8 @@ public class BitkilerActivity extends AppCompatActivity {
         buttonYaglar = findViewById(R.id.buttonYaglar);
         buttonCaylar = findViewById(R.id.buttonCaylar);
         buttonanaSayfa = findViewById(R.id.buttonAnaSayfa);
+        buttonEkle = findViewById(R.id.buttonEkle);
+        buttonTemizle = findViewById(R.id.buttonTemizle);
 
         viewData();
 
@@ -168,6 +172,53 @@ public class BitkilerActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        buttonEkle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setButtonSelected(buttonEkle);
+
+                buttonTaslar.setTextColor(Color.WHITE);
+                buttonTaslar.setBackgroundColor(myColor);
+                buttonCaylar.setTextColor(Color.WHITE);
+                buttonCaylar.setBackgroundColor(myColor);
+                buttonYaglar.setTextColor(Color.WHITE);
+                buttonYaglar.setBackgroundColor(myColor);
+                buttonDualar.setTextColor(Color.WHITE);
+                buttonDualar.setBackgroundColor(myColor);
+                buttonBitkiler.setTextColor(Color.WHITE);
+                buttonBitkiler.setBackgroundColor(myColor);
+
+                boolean isInserted = db.insertData("Acı Bakla", "Semen Lupini Şeker hastalığına karşı kullanılır.");
+
+                if (isInserted) {
+                    Toast.makeText(BitkilerActivity.this, "Veri başarıyla eklendi", Toast.LENGTH_SHORT).show();
+                    viewData();
+                } else {
+                    Toast.makeText(BitkilerActivity.this, "Veri eklenirken hata oluştu", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+        buttonTemizle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setButtonSelected(buttonTemizle);
+
+                buttonTaslar.setTextColor(Color.WHITE);
+                buttonTaslar.setBackgroundColor(myColor);
+                buttonCaylar.setTextColor(Color.WHITE);
+                buttonCaylar.setBackgroundColor(myColor);
+                buttonYaglar.setTextColor(Color.WHITE);
+                buttonYaglar.setBackgroundColor(myColor);
+                buttonDualar.setTextColor(Color.WHITE);
+                buttonDualar.setBackgroundColor(myColor);
+                buttonBitkiler.setTextColor(Color.WHITE);
+                buttonBitkiler.setBackgroundColor(myColor);
+
+                db.deleteAllData("Bitkiler");
+
+            }
+        });
     }
 
     private void setButtonSelected(Button button) {
@@ -176,7 +227,7 @@ public class BitkilerActivity extends AppCompatActivity {
     }
 
     private void viewData(){
-        Cursor cursor = db.viewData();
+        Cursor cursor = db.viewData("Bitkiler");
 
         if(cursor.getCount() == 0){
             Toast.makeText(this, "No data to show.", Toast.LENGTH_SHORT).show();
