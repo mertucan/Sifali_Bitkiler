@@ -15,6 +15,7 @@ public class MainActivity extends AppCompatActivity {
     Button buttonDualar;
     Button buttonYaglar;
     Button buttonCaylar;
+    Button buttonBMI;
     int myColor = Color.parseColor("#4CAF50");
 
     @SuppressLint("WrongViewCast")
@@ -28,6 +29,7 @@ public class MainActivity extends AppCompatActivity {
         buttonDualar = findViewById(R.id.buttonDualar);
         buttonYaglar = findViewById(R.id.buttonYaglar);
         buttonCaylar = findViewById(R.id.buttonCaylar);
+        buttonBMI = findViewById(R.id.buttonBmiHesapla);
 
         buttonBitkiler.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -120,6 +122,25 @@ public class MainActivity extends AppCompatActivity {
                 buttonDualar.setBackgroundColor(myColor);
 
                 Intent intent = new Intent(v.getContext(), CaylarActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        buttonBMI.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setButtonSelected(buttonBMI);
+
+                buttonTaslar.setTextColor(Color.WHITE);
+                buttonTaslar.setBackgroundColor(myColor);
+                buttonBitkiler.setTextColor(Color.WHITE);
+                buttonBitkiler.setBackgroundColor(myColor);
+                buttonYaglar.setTextColor(Color.WHITE);
+                buttonYaglar.setBackgroundColor(myColor);
+                buttonDualar.setTextColor(Color.WHITE);
+                buttonDualar.setBackgroundColor(myColor);
+
+                Intent intent = new Intent(v.getContext(), BMI_Activity.class);
                 startActivity(intent);
             }
         });

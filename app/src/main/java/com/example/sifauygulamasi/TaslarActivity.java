@@ -20,6 +20,7 @@ public class TaslarActivity extends AppCompatActivity {
     Button buttonDualar;
     Button buttonYaglar;
     Button buttonCaylar;
+    Button buttonanaSayfa;
     ListView plantList;
     int myColor = Color.parseColor("#4CAF50");
 
@@ -37,6 +38,7 @@ public class TaslarActivity extends AppCompatActivity {
         buttonDualar = findViewById(R.id.buttonDualar);
         buttonYaglar = findViewById(R.id.buttonYaglar);
         buttonCaylar = findViewById(R.id.buttonCaylar);
+        buttonanaSayfa = findViewById(R.id.buttonAnaSayfa);
 
         setButtonSelected(buttonTaslar);
         Objects.requireNonNull(getSupportActionBar()).setTitle("Şifacı - Taşlar");
@@ -134,6 +136,25 @@ public class TaslarActivity extends AppCompatActivity {
                 Intent intent = new Intent(v.getContext(), CaylarActivity.class);
                 startActivity(intent);
 
+            }
+        });
+
+        buttonanaSayfa.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setButtonSelected(buttonanaSayfa);
+
+                buttonTaslar.setTextColor(Color.WHITE);
+                buttonTaslar.setBackgroundColor(myColor);
+                buttonCaylar.setTextColor(Color.WHITE);
+                buttonCaylar.setBackgroundColor(myColor);
+                buttonYaglar.setTextColor(Color.WHITE);
+                buttonYaglar.setBackgroundColor(myColor);
+                buttonDualar.setTextColor(Color.WHITE);
+                buttonDualar.setBackgroundColor(myColor);
+
+                Intent intent = new Intent(v.getContext(), MainActivity.class);
+                startActivity(intent);
             }
         });
     }

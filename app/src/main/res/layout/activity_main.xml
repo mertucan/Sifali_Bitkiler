@@ -6,7 +6,55 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:gravity="center_horizontal"
+    android:background="#FFFFFF"
     tools:context=".MainActivity">
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_marginTop="32dp"
+        android:layout_height="200dp"
+        android:src="@drawable/health"
+        android:scaleType="centerCrop"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Hoşgeldiniz!"
+        android:textSize="32sp"
+        android:textColor="#000000"
+        android:layout_marginTop="16dp"
+        android:textStyle="bold"
+        android:shadowColor="#808080"
+        android:shadowDx="1"
+        android:shadowDy="1"
+        android:shadowRadius="1"
+        android:padding="8dp"
+        android:gravity="center"/>
+
+    <Button
+        android:id="@+id/buttonBmiHesapla"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="24dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginRight="24dp"
+        android:layout_marginBottom="16dp"
+        android:background="#4CAF50"
+        android:padding="12dp"
+        android:text="BMI Hesapla"
+        android:textColor="#FFFFFF"
+        android:textSize="18sp" />
+
+    <Button
+        android:id="@+id/buttonBos"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="4dp"
+        android:layout_weight="1"
+        android:background="#4CAF50"
+        android:gravity="center"
+        android:textColor="#FFFFFF"
+        android:textSize="11sp" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -16,62 +64,62 @@
         <Button
             android:id="@+id/buttonBitkiler"
             android:layout_width="0dp"
-            android:layout_weight="1"
             android:layout_height="wrap_content"
-            android:text="Bitkiler"
-            android:textSize="11sp"
             android:layout_margin="4dp"
-            android:gravity="center"
+            android:layout_weight="1"
             android:background="#4CAF50"
-            android:textColor="#FFFFFF"/>
+            android:gravity="center"
+            android:text="Bitkiler"
+            android:textColor="#FFFFFF"
+            android:textSize="11sp" />
 
         <Button
             android:id="@+id/buttonTaslar"
             android:layout_width="0dp"
-            android:layout_weight="1"
             android:layout_height="wrap_content"
-            android:text="Taşlar"
-            android:textSize="11sp"
             android:layout_margin="4dp"
-            android:gravity="center"
+            android:layout_weight="1"
             android:background="#4CAF50"
-            android:textColor="#FFFFFF"/>
+            android:gravity="center"
+            android:text="Taşlar"
+            android:textColor="#FFFFFF"
+            android:textSize="11sp" />
 
         <Button
             android:id="@+id/buttonDualar"
             android:layout_width="0dp"
-            android:layout_weight="1"
             android:layout_height="wrap_content"
-            android:text="Dualar"
-            android:textSize="11sp"
             android:layout_margin="4dp"
-            android:gravity="center"
+            android:layout_weight="1"
             android:background="#4CAF50"
-            android:textColor="#FFFFFF"/>
+            android:gravity="center"
+            android:text="Dualar"
+            android:textColor="#FFFFFF"
+            android:textSize="11sp" />
 
         <Button
             android:id="@+id/buttonYaglar"
             android:layout_width="0dp"
-            android:layout_weight="1"
             android:layout_height="wrap_content"
-            android:text="Yağlar"
-            android:textSize="11sp"
             android:layout_margin="4dp"
-            android:gravity="center"
+            android:layout_weight="1"
             android:background="#4CAF50"
-            android:textColor="#FFFFFF" />
+            android:gravity="center"
+            android:text="Yağlar"
+            android:textColor="#FFFFFF"
+            android:textSize="11sp" />
 
         <Button
             android:id="@+id/buttonCaylar"
             android:layout_width="0dp"
-            android:layout_weight="1"
             android:layout_height="wrap_content"
-            android:text="Çaylar"
-            android:textSize="11sp"
             android:layout_margin="4dp"
-            android:gravity="center"
+            android:layout_weight="1"
             android:background="#4CAF50"
-            android:textColor="#FFFFFF"/>
+            android:gravity="center"
+            android:text="Çaylar"
+            android:textColor="#FFFFFF"
+            android:textSize="11sp" />
     </LinearLayout>
 
 </LinearLayout>

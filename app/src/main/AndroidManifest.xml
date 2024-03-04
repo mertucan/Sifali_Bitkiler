@@ -42,6 +42,10 @@
         <activity android:name=".YaglarActivity">
 
         </activity>
+
+        <activity android:name=".BMI_Activity">
+
+        </activity>
     </application>
 
 </manifest>
