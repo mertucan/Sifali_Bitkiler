@@ -8,20 +8,29 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ListView;
 
-public class MainActivity extends AppCompatActivity {
+import java.util.Objects;
+
+public class CaylarActivity extends AppCompatActivity {
+
+    DatabaseHelper db;
     Button buttonBitkiler;
     Button buttonTaslar;
     Button buttonDualar;
     Button buttonYaglar;
     Button buttonCaylar;
+    ListView plantList;
     int myColor = Color.parseColor("#4CAF50");
 
     @SuppressLint("WrongViewCast")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_caylar);
+
+        db = new DatabaseHelper(this);
+        plantList = findViewById(R.id.listView);
 
         buttonBitkiler = findViewById(R.id.buttonBitkiler);
         buttonTaslar = findViewById(R.id.buttonTaslar);
@@ -29,6 +38,8 @@ public class MainActivity extends AppCompatActivity {
         buttonYaglar = findViewById(R.id.buttonYaglar);
         buttonCaylar = findViewById(R.id.buttonCaylar);
 
+        setButtonSelected(buttonCaylar);
+        Objects.requireNonNull(getSupportActionBar()).setTitle("Şifacı - Çaylar");
         buttonBitkiler.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -121,6 +132,7 @@ public class MainActivity extends AppCompatActivity {
 
                 Intent intent = new Intent(v.getContext(), CaylarActivity.class);
                 startActivity(intent);
+
             }
         });
     }
