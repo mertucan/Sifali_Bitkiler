@@ -7,9 +7,12 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -24,10 +27,10 @@ public class CaylarActivity extends AppCompatActivity {
     Button buttonDualar;
     Button buttonYaglar;
     Button buttonCaylar;
-    Button buttonanaSayfa;
-    Button buttonEkle;
-    Button buttonTemizle;
-    ListView plantList;
+    Button buttonVeriEkle;
+    EditText editTextAra;
+    Button buttonAra;
+    ListView caylarList;
     ArrayList<String> listItem;
     ArrayAdapter adapter;
     int myColor = Color.parseColor("#4CAF50");
@@ -39,7 +42,7 @@ public class CaylarActivity extends AppCompatActivity {
         setContentView(R.layout.activity_caylar);
 
         db = new DatabaseHelper(this);
-        plantList = findViewById(R.id.listView);
+        caylarList = findViewById(R.id.listView);
         listItem = new ArrayList<>();
 
         buttonBitkiler = findViewById(R.id.buttonBitkiler);
@@ -47,14 +50,55 @@ public class CaylarActivity extends AppCompatActivity {
         buttonDualar = findViewById(R.id.buttonDualar);
         buttonYaglar = findViewById(R.id.buttonYaglar);
         buttonCaylar = findViewById(R.id.buttonCaylar);
-        buttonanaSayfa = findViewById(R.id.buttonAnaSayfa);
-        buttonEkle = findViewById(R.id.buttonEkle);
-        buttonTemizle = findViewById(R.id.buttonTemizle);
+        buttonVeriEkle = findViewById(R.id.buttonVeriEkle);
+        editTextAra = findViewById(R.id.editTextAra);
+        buttonAra = findViewById(R.id.buttonSearch);
 
         viewData();
 
         setButtonSelected(buttonCaylar);
         Objects.requireNonNull(getSupportActionBar()).setTitle("Şifacı - Çaylar");
+
+        buttonAra.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                searchByName();
+            }
+        });
+
+        caylarList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                String selectedTitle = parent.getItemAtPosition(position).toString();
+                Cursor cursor = db.getDataByTitle(selectedTitle, "Caylar");
+
+                if (cursor != null && cursor.moveToFirst()) {
+                    int nameColumnIndex = cursor.getColumnIndex("Name");
+                    int descriptionColumnIndex = cursor.getColumnIndex("Description");
+
+                    if (nameColumnIndex != -1 && descriptionColumnIndex != -1) {
+                        String title = cursor.getString(nameColumnIndex);
+                        String description = cursor.getString(descriptionColumnIndex);
+
+                        Intent intent = new Intent(CaylarActivity.this, GosterActivity.class);
+                        intent.putExtra("Name", title);
+                        if(description.equals(""))
+                        {
+                            intent.putExtra("Description", "Açıklama yok.");
+                        }
+                        else
+                        {
+                            intent.putExtra("Description", description);
+                        }
+                        startActivity(intent);
+                    } else {
+                        Log.e("CaylarActivity", "Belirtilen sütun adları bulunamadı.");
+                    }
+
+                    cursor.close();
+                }
+            }
+        });
         buttonBitkiler.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -151,10 +195,10 @@ public class CaylarActivity extends AppCompatActivity {
             }
         });
 
-        buttonanaSayfa.setOnClickListener(new View.OnClickListener() {
+        buttonVeriEkle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                setButtonSelected(buttonanaSayfa);
+                setButtonSelected(buttonVeriEkle);
 
                 buttonTaslar.setTextColor(Color.WHITE);
                 buttonTaslar.setBackgroundColor(myColor);
@@ -165,58 +209,10 @@ public class CaylarActivity extends AppCompatActivity {
                 buttonDualar.setTextColor(Color.WHITE);
                 buttonDualar.setBackgroundColor(myColor);
 
-                Intent intent = new Intent(v.getContext(), MainActivity.class);
+                Intent intent = new Intent(v.getContext(), AddActivity.class);
+
+                intent.putExtra("kategori", "Caylar");
                 startActivity(intent);
-            }
-        });
-
-        buttonEkle.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                setButtonSelected(buttonEkle);
-
-                buttonTaslar.setTextColor(Color.WHITE);
-                buttonTaslar.setBackgroundColor(myColor);
-                buttonCaylar.setTextColor(Color.WHITE);
-                buttonCaylar.setBackgroundColor(myColor);
-                buttonYaglar.setTextColor(Color.WHITE);
-                buttonYaglar.setBackgroundColor(myColor);
-                buttonDualar.setTextColor(Color.WHITE);
-                buttonDualar.setBackgroundColor(myColor);
-                buttonBitkiler.setTextColor(Color.WHITE);
-                buttonBitkiler.setBackgroundColor(myColor);
-
-                db.insertData("Ahududu Çayı", "", "Caylar");
-                db.insertData("Akasya Çayı", "", "Caylar");
-                db.insertData("Akdiken Çayı", "", "Caylar");
-                db.insertData("Alıç Çayı", "", "Caylar");
-                db.insertData("Altınbaşak Çayı", "", "Caylar");
-                db.insertData("Altın Çilek Çayı", "", "Caylar");
-                db.insertData("Amber Çayı", "", "Caylar");
-                db.insertData("Anason Çayı", "", "Caylar");
-                db.insertData("Ardıç Çayı", "", "Caylar");
-                db.insertData("Arpa Çayı", "", "Caylar");
-                db.insertData("Asma Yaprağı Çayı", "", "Caylar");
-            }
-        });
-        buttonTemizle.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                setButtonSelected(buttonTemizle);
-
-                buttonTaslar.setTextColor(Color.WHITE);
-                buttonTaslar.setBackgroundColor(myColor);
-                buttonCaylar.setTextColor(Color.WHITE);
-                buttonCaylar.setBackgroundColor(myColor);
-                buttonYaglar.setTextColor(Color.WHITE);
-                buttonYaglar.setBackgroundColor(myColor);
-                buttonDualar.setTextColor(Color.WHITE);
-                buttonDualar.setBackgroundColor(myColor);
-                buttonBitkiler.setTextColor(Color.WHITE);
-                buttonBitkiler.setBackgroundColor(myColor);
-
-                db.deleteAllData("Caylar");
-
             }
         });
     }
@@ -238,7 +234,34 @@ public class CaylarActivity extends AppCompatActivity {
             }
 
             adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, listItem);
-            plantList.setAdapter(adapter);
+            caylarList.setAdapter(adapter);
+        }
+    }
+
+    private void searchByName() {
+        String searchQuery = editTextAra.getText().toString().trim();
+
+        if (searchQuery.isEmpty()) {
+            viewData();
+            return;
+        }
+
+        Cursor cursor = db.searchByName(searchQuery, "Caylar");
+
+        if (cursor != null && cursor.moveToFirst()) {
+            listItem.clear();
+
+            do {
+                listItem.add(cursor.getString(1));
+            } while (cursor.moveToNext());
+
+            adapter.notifyDataSetChanged();
+        } else {
+            Toast.makeText(this, "Sonuç bulunamadı.", Toast.LENGTH_SHORT).show();
+        }
+
+        if (cursor != null) {
+            cursor.close();
         }
     }
 }

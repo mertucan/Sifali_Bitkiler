@@ -4,22 +4,15 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.database.Cursor;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ListView;
-import android.widget.Toast;
+import android.widget.TextView;
 
-import java.util.ArrayList;
 import java.util.Objects;
 
-public class DualarActivity extends AppCompatActivity {
+public class GosterActivity extends AppCompatActivity {
 
     DatabaseHelper db;
     Button buttonBitkiler;
@@ -27,71 +20,35 @@ public class DualarActivity extends AppCompatActivity {
     Button buttonDualar;
     Button buttonYaglar;
     Button buttonCaylar;
-    Button buttonVeriEkle;
-    EditText editTextAra;
-    Button buttonAra;
-    ListView dualarList;
-    ArrayList<String> listItem;
-    ArrayAdapter adapter;
+    Button buttonanaSayfa;
+    TextView aciklamaTextView;
+    TextView baslikTextView;
     int myColor = Color.parseColor("#4CAF50");
-
     @SuppressLint("WrongViewCast")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_dualar);
+        setContentView(R.layout.activity_goster);
 
         db = new DatabaseHelper(this);
-        dualarList = findViewById(R.id.listView);
-        listItem = new ArrayList<>();
 
         buttonBitkiler = findViewById(R.id.buttonBitkiler);
         buttonTaslar = findViewById(R.id.buttonTaslar);
         buttonDualar = findViewById(R.id.buttonDualar);
         buttonYaglar = findViewById(R.id.buttonYaglar);
         buttonCaylar = findViewById(R.id.buttonCaylar);
-        buttonVeriEkle = findViewById(R.id.buttonVeriEkle);
-        editTextAra = findViewById(R.id.editTextAra);
-        buttonAra = findViewById(R.id.buttonSearch);
+        buttonanaSayfa = findViewById(R.id.buttonAnaSayfa);
+        baslikTextView = findViewById(R.id.baslikTextView);
+        aciklamaTextView = findViewById(R.id.aciklamaTextView);
 
-        viewData();
+        Intent intent = getIntent();
+        String title = intent.getStringExtra("Name");
+        String description = intent.getStringExtra("Description");
 
-        setButtonSelected(buttonDualar);
-        Objects.requireNonNull(getSupportActionBar()).setTitle("Şifacı - Dualar");
+        baslikTextView.setText(title);
+        aciklamaTextView.setText(description);
 
-        dualarList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                String selectedTitle = parent.getItemAtPosition(position).toString();
-                Cursor cursor = db.getDataByTitle(selectedTitle, "Dualar");
-
-                if (cursor != null && cursor.moveToFirst()) {
-                    int nameColumnIndex = cursor.getColumnIndex("Name");
-                    int descriptionColumnIndex = cursor.getColumnIndex("Description");
-
-                    if (nameColumnIndex != -1 && descriptionColumnIndex != -1) {
-                        String title = cursor.getString(nameColumnIndex);
-                        String description = cursor.getString(descriptionColumnIndex);
-
-                        Intent intent = new Intent(DualarActivity.this, GosterActivity.class);
-                        intent.putExtra("Name", title);
-                        intent.putExtra("Description", description);
-                        startActivity(intent);
-                    } else {
-                        Log.e("DualarActivity", "Belirtilen sütun adları bulunamadı.");
-                    }
-
-                    cursor.close();
-                }
-            }
-        });
-
-        buttonAra.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                searchByName();
-            }
-        });
+        Objects.requireNonNull(getSupportActionBar()).setTitle("Şifacı");
 
         buttonBitkiler.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -189,10 +146,10 @@ public class DualarActivity extends AppCompatActivity {
             }
         });
 
-        buttonVeriEkle.setOnClickListener(new View.OnClickListener() {
+        buttonanaSayfa.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                setButtonSelected(buttonVeriEkle);
+                setButtonSelected(buttonanaSayfa);
 
                 buttonTaslar.setTextColor(Color.WHITE);
                 buttonTaslar.setBackgroundColor(myColor);
@@ -202,10 +159,10 @@ public class DualarActivity extends AppCompatActivity {
                 buttonYaglar.setBackgroundColor(myColor);
                 buttonDualar.setTextColor(Color.WHITE);
                 buttonDualar.setBackgroundColor(myColor);
+                buttonBitkiler.setTextColor(Color.WHITE);
+                buttonBitkiler.setBackgroundColor(myColor);
 
-                Intent intent = new Intent(v.getContext(), AddActivity.class);
-
-                intent.putExtra("kategori", "Dualar");
+                Intent intent = new Intent(v.getContext(), MainActivity.class);
                 startActivity(intent);
             }
         });
@@ -214,48 +171,5 @@ public class DualarActivity extends AppCompatActivity {
     private void setButtonSelected(Button button) {
         button.setTextColor(myColor);
         button.setBackgroundColor(Color.WHITE);
-    }
-
-    private void viewData(){
-        Cursor cursor = db.viewData("Dualar");
-
-        if(cursor.getCount() == 0){
-            Toast.makeText(this, "No data to show.", Toast.LENGTH_SHORT).show();
-        }
-        else{
-            while(cursor.moveToNext()){
-                listItem.add(cursor.getString(1));
-            }
-
-            adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, listItem);
-            dualarList.setAdapter(adapter);
-        }
-    }
-
-    private void searchByName() {
-        String searchQuery = editTextAra.getText().toString().trim();
-
-        if (searchQuery.isEmpty()) {
-            viewData();
-            return;
-        }
-
-        Cursor cursor = db.searchByName(searchQuery, "Dualar");
-
-        if (cursor != null && cursor.moveToFirst()) {
-            listItem.clear();
-
-            do {
-                listItem.add(cursor.getString(1));
-            } while (cursor.moveToNext());
-
-            adapter.notifyDataSetChanged();
-        } else {
-            Toast.makeText(this, "Sonuç bulunamadı.", Toast.LENGTH_SHORT).show();
-        }
-
-        if (cursor != null) {
-            cursor.close();
-        }
     }
 }

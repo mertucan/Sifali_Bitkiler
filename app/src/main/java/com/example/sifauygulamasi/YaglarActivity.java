@@ -7,9 +7,12 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -24,10 +27,10 @@ public class YaglarActivity extends AppCompatActivity {
     Button buttonDualar;
     Button buttonYaglar;
     Button buttonCaylar;
-    Button buttonanaSayfa;
-    Button buttonEkle;
-    Button buttonTemizle;
-    ListView plantList;
+    Button buttonVeriEkle;
+    EditText editTextAra;
+    Button buttonAra;
+    ListView yaglarList;
     ArrayList<String> listItem;
     ArrayAdapter adapter;
     int myColor = Color.parseColor("#4CAF50");
@@ -39,7 +42,7 @@ public class YaglarActivity extends AppCompatActivity {
         setContentView(R.layout.activity_yaglar);
 
         db = new DatabaseHelper(this);
-        plantList = findViewById(R.id.listView);
+        yaglarList = findViewById(R.id.listView);
         listItem = new ArrayList<>();
 
         buttonBitkiler = findViewById(R.id.buttonBitkiler);
@@ -47,14 +50,55 @@ public class YaglarActivity extends AppCompatActivity {
         buttonDualar = findViewById(R.id.buttonDualar);
         buttonYaglar = findViewById(R.id.buttonYaglar);
         buttonCaylar = findViewById(R.id.buttonCaylar);
-        buttonanaSayfa = findViewById(R.id.buttonAnaSayfa);
-        buttonEkle = findViewById(R.id.buttonEkle);
-        buttonTemizle = findViewById(R.id.buttonTemizle);
+        buttonVeriEkle = findViewById(R.id.buttonVeriEkle);
+        editTextAra = findViewById(R.id.editTextAra);
+        buttonAra = findViewById(R.id.buttonSearch);
 
         viewData();
 
         setButtonSelected(buttonYaglar);
         Objects.requireNonNull(getSupportActionBar()).setTitle("Şifacı - Yağlar");
+        yaglarList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                String selectedTitle = parent.getItemAtPosition(position).toString();
+                Cursor cursor = db.getDataByTitle(selectedTitle, "Yaglar");
+
+                if (cursor != null && cursor.moveToFirst()) {
+                    int nameColumnIndex = cursor.getColumnIndex("Name");
+                    int descriptionColumnIndex = cursor.getColumnIndex("Description");
+
+                    if (nameColumnIndex != -1 && descriptionColumnIndex != -1) {
+                        String title = cursor.getString(nameColumnIndex);
+                        String description = cursor.getString(descriptionColumnIndex);
+
+                        Intent intent = new Intent(YaglarActivity.this, GosterActivity.class);
+                        intent.putExtra("Name", title);
+                        if(description.equals(""))
+                        {
+                            intent.putExtra("Description", "Açıklama yok.");
+                        }
+                        else
+                        {
+                            intent.putExtra("Description", description);
+                        }
+                        startActivity(intent);
+                    } else {
+                        Log.e("YaglarActivity", "Belirtilen sütun adları bulunamadı.");
+                    }
+
+                    cursor.close();
+                }
+            }
+        });
+
+        buttonAra.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                searchByName();
+            }
+        });
+
         buttonBitkiler.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -151,10 +195,10 @@ public class YaglarActivity extends AppCompatActivity {
             }
         });
 
-        buttonanaSayfa.setOnClickListener(new View.OnClickListener() {
+        buttonVeriEkle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                setButtonSelected(buttonanaSayfa);
+                setButtonSelected(buttonVeriEkle);
 
                 buttonTaslar.setTextColor(Color.WHITE);
                 buttonTaslar.setBackgroundColor(myColor);
@@ -165,57 +209,10 @@ public class YaglarActivity extends AppCompatActivity {
                 buttonDualar.setTextColor(Color.WHITE);
                 buttonDualar.setBackgroundColor(myColor);
 
-                Intent intent = new Intent(v.getContext(), MainActivity.class);
+                Intent intent = new Intent(v.getContext(), AddActivity.class);
+
+                intent.putExtra("kategori", "Yaglar");
                 startActivity(intent);
-            }
-        });
-
-        buttonEkle.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                setButtonSelected(buttonEkle);
-
-                buttonTaslar.setTextColor(Color.WHITE);
-                buttonTaslar.setBackgroundColor(myColor);
-                buttonCaylar.setTextColor(Color.WHITE);
-                buttonCaylar.setBackgroundColor(myColor);
-                buttonYaglar.setTextColor(Color.WHITE);
-                buttonYaglar.setBackgroundColor(myColor);
-                buttonDualar.setTextColor(Color.WHITE);
-                buttonDualar.setBackgroundColor(myColor);
-                buttonBitkiler.setTextColor(Color.WHITE);
-                buttonBitkiler.setBackgroundColor(myColor);
-
-                db.insertData("Magnezyum Yağı", "", "Yaglar");
-                db.insertData("Nane Ruhu", "", "Yaglar");
-                db.insertData("Nane Yağı", "", "Yaglar");
-                db.insertData("Acı Elma Yağı", "", "Yaglar");
-                db.insertData("Soğan Yağı", "", "Yaglar");
-                db.insertData("Sedir Ağacı Yağı", "", "Yaglar");
-                db.insertData("Safran Yağı", "", "Yaglar");
-                db.insertData("Pelin Otu Yağı", "", "Yaglar");
-                db.insertData("Nergis Yağı", "", "Yaglar");
-                db.insertData("Mısır Yağı", "", "Yaglar");
-            }
-        });
-        buttonTemizle.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                setButtonSelected(buttonTemizle);
-
-                buttonTaslar.setTextColor(Color.WHITE);
-                buttonTaslar.setBackgroundColor(myColor);
-                buttonCaylar.setTextColor(Color.WHITE);
-                buttonCaylar.setBackgroundColor(myColor);
-                buttonYaglar.setTextColor(Color.WHITE);
-                buttonYaglar.setBackgroundColor(myColor);
-                buttonDualar.setTextColor(Color.WHITE);
-                buttonDualar.setBackgroundColor(myColor);
-                buttonBitkiler.setTextColor(Color.WHITE);
-                buttonBitkiler.setBackgroundColor(myColor);
-
-                db.deleteAllData("Yaglar");
-
             }
         });
     }
@@ -237,7 +234,34 @@ public class YaglarActivity extends AppCompatActivity {
             }
 
             adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, listItem);
-            plantList.setAdapter(adapter);
+            yaglarList.setAdapter(adapter);
+        }
+    }
+
+    private void searchByName() {
+        String searchQuery = editTextAra.getText().toString().trim();
+
+        if (searchQuery.isEmpty()) {
+            viewData();
+            return;
+        }
+
+        Cursor cursor = db.searchByName(searchQuery, "Yaglar");
+
+        if (cursor != null && cursor.moveToFirst()) {
+            listItem.clear();
+
+            do {
+                listItem.add(cursor.getString(1));
+            } while (cursor.moveToNext());
+
+            adapter.notifyDataSetChanged();
+        } else {
+            Toast.makeText(this, "Sonuç bulunamadı.", Toast.LENGTH_SHORT).show();
+        }
+
+        if (cursor != null) {
+            cursor.close();
         }
     }
 }

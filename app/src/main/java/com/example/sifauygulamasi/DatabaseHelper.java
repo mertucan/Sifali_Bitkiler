@@ -82,9 +82,15 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return cursor;
     }
 
-    public void deleteAllData(String table) {
+    public Cursor getDataByTitle(String title, String table) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        String query = "SELECT * FROM "+ table +" WHERE Name = ?";
+        return db.rawQuery(query, new String[]{title});
+    }
+
+    public Cursor searchByName(String name, String tableName) {
         SQLiteDatabase db = this.getWritableDatabase();
-        db.delete(table, null, null);
-        db.close();
+        String query = "SELECT * FROM " + tableName + " WHERE Name LIKE '%" + name + "%'";
+        return db.rawQuery(query, null);
     }
 }

@@ -7,9 +7,12 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -24,10 +27,10 @@ public class TaslarActivity extends AppCompatActivity {
     Button buttonDualar;
     Button buttonYaglar;
     Button buttonCaylar;
-    Button buttonanaSayfa;
-    Button buttonEkle;
-    Button buttonTemizle;
-    ListView plantList;
+    Button buttonVeriEkle;
+    EditText editTextAra;
+    Button buttonAra;
+    ListView taslarList;
     ArrayList<String> listItem;
     ArrayAdapter adapter;
     int myColor = Color.parseColor("#4CAF50");
@@ -39,7 +42,7 @@ public class TaslarActivity extends AppCompatActivity {
         setContentView(R.layout.activity_taslar);
 
         db = new DatabaseHelper(this);
-        plantList = findViewById(R.id.listView);
+        taslarList = findViewById(R.id.listView);
         listItem = new ArrayList<>();
 
         buttonBitkiler = findViewById(R.id.buttonBitkiler);
@@ -47,14 +50,48 @@ public class TaslarActivity extends AppCompatActivity {
         buttonDualar = findViewById(R.id.buttonDualar);
         buttonYaglar = findViewById(R.id.buttonYaglar);
         buttonCaylar = findViewById(R.id.buttonCaylar);
-        buttonanaSayfa = findViewById(R.id.buttonAnaSayfa);
-        buttonEkle = findViewById(R.id.buttonEkle);
-        buttonTemizle = findViewById(R.id.buttonTemizle);
+        buttonVeriEkle = findViewById(R.id.buttonVeriEkle);
+        editTextAra = findViewById(R.id.editTextAra);
+        buttonAra = findViewById(R.id.buttonSearch);
 
         viewData();
 
         setButtonSelected(buttonTaslar);
         Objects.requireNonNull(getSupportActionBar()).setTitle("Şifacı - Taşlar");
+
+        taslarList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                String selectedTitle = parent.getItemAtPosition(position).toString();
+                Cursor cursor = db.getDataByTitle(selectedTitle, "Taslar");
+
+                if (cursor != null && cursor.moveToFirst()) {
+                    int nameColumnIndex = cursor.getColumnIndex("Name");
+                    int descriptionColumnIndex = cursor.getColumnIndex("Description");
+
+                    if (nameColumnIndex != -1 && descriptionColumnIndex != -1) {
+                        String title = cursor.getString(nameColumnIndex);
+                        String description = cursor.getString(descriptionColumnIndex);
+
+                        Intent intent = new Intent(TaslarActivity.this, GosterActivity.class);
+                        intent.putExtra("Name", title);
+                        intent.putExtra("Description", description);
+                        startActivity(intent);
+                    } else {
+                        Log.e("TaslarActivity", "Belirtilen sütun adları bulunamadı.");
+                    }
+
+                    cursor.close();
+                }
+            }
+        });
+        buttonAra.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                searchByName();
+            }
+        });
+
         buttonBitkiler.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -151,10 +188,10 @@ public class TaslarActivity extends AppCompatActivity {
             }
         });
 
-        buttonanaSayfa.setOnClickListener(new View.OnClickListener() {
+        buttonVeriEkle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                setButtonSelected(buttonanaSayfa);
+                setButtonSelected(buttonVeriEkle);
 
                 buttonTaslar.setTextColor(Color.WHITE);
                 buttonTaslar.setBackgroundColor(myColor);
@@ -165,53 +202,10 @@ public class TaslarActivity extends AppCompatActivity {
                 buttonDualar.setTextColor(Color.WHITE);
                 buttonDualar.setBackgroundColor(myColor);
 
-                Intent intent = new Intent(v.getContext(), MainActivity.class);
+                Intent intent = new Intent(v.getContext(), AddActivity.class);
+
+                intent.putExtra("kategori", "Taslar");
                 startActivity(intent);
-            }
-        });
-
-        buttonEkle.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                setButtonSelected(buttonEkle);
-
-                buttonTaslar.setTextColor(Color.WHITE);
-                buttonTaslar.setBackgroundColor(myColor);
-                buttonCaylar.setTextColor(Color.WHITE);
-                buttonCaylar.setBackgroundColor(myColor);
-                buttonYaglar.setTextColor(Color.WHITE);
-                buttonYaglar.setBackgroundColor(myColor);
-                buttonDualar.setTextColor(Color.WHITE);
-                buttonDualar.setBackgroundColor(myColor);
-                buttonBitkiler.setTextColor(Color.WHITE);
-                buttonBitkiler.setBackgroundColor(myColor);
-
-                db.insertData("Agate", "Kalkedon. Kırmızı, portakal, sarı, kahverengi tonlarında. Som. Öğütülebilir. Mide, bağırsak, karaciğer, dalak, böbrekler ve radyasyon hastalıklarında etkili. Kalp üzerine takıldığında kan şekeri, iştahsızlık ve lenfler üzerinde etkin. Duyguları dengeleyici, sinir dengeleyici, yaralanma ve yanma olaylarında sonra çabuk iyileştirici, beyin enerjisini dengeliyici. Mavi desenlisi, sabrı ve barış duygularını arttırır, sakinleştirir. H-CTR.", "Taslar");
-                db.insertData("Amber", "Açık sarı veya portakal. İlk Çağ´dan kalan taşlaşmış reçine oluşumu. Elektromanyetik. Solar Plexus şakrasını açar, ruhsal dengeyi, zihin açıklığını, güveni sağlar. Mide gerilimlerini, omurgayı, merkezi sinir sistemini, bellek kayıplarını, hücre yenilenmelerini düzenler. Sarı ve portakal renkli amberler, zihinsel ve duygusal uyumu sağlarlar. Amber özellikle, radyasyonun, x ışınlarının, güneşin, bilgisayarların, uçakların ve diğer aygıtların yaydığı enerjilerin zararlarını azaltır. Eski çağlarda kızılderililer ve Asyalılar tarafından kullanılırdı. Amber tesbihlerin gerilimleri giderdiği gözlemlenmiştir. H-T", "Taslar");
-                db.insertData("Ametist", "Yarı şeffaf, mor/levanta renklerinde. Fiziksel, imajinatif ve düşünsel dengeleyici. Uykuda veya uyanıldığında takılırsa, öfkeyi, sabırsızlığı ve kabusları engeller. Başağrıları, gözler, saç dökülmesi, kilo kaybı, kan şekeri dengesi üzerinde etkilidir. Hıçkırığın, alkolün, aşırı yemeğin zararlarını azaltır. İyi bir panzehirdir (özellikle alkole karşı). Ev hayvanlarının suyunun içine konulursa pireleri kaçırır. H-CTR", "Taslar");
-                db.insertData("Aquamarin", "Beril türü. Açık parlak mavi, mavi-yeşil renklerde. Sakinleştirici, güçlendirici; zihin açıcı; yaratıcılığı, ilişkilerin kolaylaşmasını, güven duygusunun artmasını sağlar. Gırtlak, tiroid, dalak (CTR), bağışıklık sistemi, timus, lenfler üzerinde yararlı etkiler oluşturur. Korkuları, huzursuzlukları, panik atakları yatıştırır, azaltır. Allerjik solunum rahatsızlıklarını yumuşatır. Eski çağlarda su yolculuklarında koruyucu olarak kabul edilirdi. H-CTR\n", "Taslar");
-                db.insertData("Azurite", "Koyu mavi, mavi-mor. Alın ve boğaz üzerinde aktiftir ama aşırıya kaçılmadan. Ayrıca bilinçaltını sakinleştirdiği iddia edilmektedir. Fiziksel güç sağlar, yaratıcılığı, kararlılığı, anlayışı, gerçekleri görmeyi geliştirir. Hücrelerin normaldışı davranışlarını dengeler. Tiroid, sinüsler, cilt sağlığı, dalak, sinir sistemi üzerinde olumlu etkiler yaratır. H-CTR-T\n", "Taslar");
-                db.insertData("Bakır", "Mükemmel enerji yöneticisi. Düşünce gücünü ve sağlığı güçlendirir, taşıyanın enerji alanına katkıda bulunur. Cilde temas ettirildiğinde, yatıştırıcıdır. Artrit, romatizma gibi yoğun enerji düğümlerini çözer. Bağırsaklara ve mideye yararlıdır. Sıcak duygular verir, öfkeyi, alınganlığı azaltır. Güneş ve Ay enerjilerini dengeler. H-CTR-T\n", "Taslar");
-            }
-        });
-        buttonTemizle.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                setButtonSelected(buttonTemizle);
-
-                buttonTaslar.setTextColor(Color.WHITE);
-                buttonTaslar.setBackgroundColor(myColor);
-                buttonCaylar.setTextColor(Color.WHITE);
-                buttonCaylar.setBackgroundColor(myColor);
-                buttonYaglar.setTextColor(Color.WHITE);
-                buttonYaglar.setBackgroundColor(myColor);
-                buttonDualar.setTextColor(Color.WHITE);
-                buttonDualar.setBackgroundColor(myColor);
-                buttonBitkiler.setTextColor(Color.WHITE);
-                buttonBitkiler.setBackgroundColor(myColor);
-
-                db.deleteAllData("Taslar");
-
             }
         });
     }
@@ -233,7 +227,34 @@ public class TaslarActivity extends AppCompatActivity {
             }
 
             adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, listItem);
-            plantList.setAdapter(adapter);
+            taslarList.setAdapter(adapter);
+        }
+    }
+
+    private void searchByName() {
+        String searchQuery = editTextAra.getText().toString().trim();
+
+        if (searchQuery.isEmpty()) {
+            viewData();
+            return;
+        }
+
+        Cursor cursor = db.searchByName(searchQuery, "Taslar");
+
+        if (cursor != null && cursor.moveToFirst()) {
+            listItem.clear();
+
+            do {
+                listItem.add(cursor.getString(1));
+            } while (cursor.moveToNext());
+
+            adapter.notifyDataSetChanged();
+        } else {
+            Toast.makeText(this, "Sonuç bulunamadı.", Toast.LENGTH_SHORT).show();
+        }
+
+        if (cursor != null) {
+            cursor.close();
         }
     }
 }

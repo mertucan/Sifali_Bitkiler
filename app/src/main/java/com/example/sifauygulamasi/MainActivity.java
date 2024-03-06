@@ -53,6 +53,9 @@ public class MainActivity extends AppCompatActivity {
 
                 Intent intent = new Intent(v.getContext(), BitkilerActivity.class);
                 startActivity(intent);
+
+                buttonBitkiler.setTextColor(Color.WHITE);
+                buttonBitkiler.setBackgroundColor(myColor);
             }
         });
 
@@ -72,6 +75,9 @@ public class MainActivity extends AppCompatActivity {
 
                 Intent intent = new Intent(v.getContext(), TaslarActivity.class);
                 startActivity(intent);
+
+                buttonTaslar.setTextColor(Color.WHITE);
+                buttonTaslar.setBackgroundColor(myColor);
             }
         });
 
@@ -91,6 +97,9 @@ public class MainActivity extends AppCompatActivity {
 
                 Intent intent = new Intent(v.getContext(), DualarActivity.class);
                 startActivity(intent);
+
+                buttonDualar.setTextColor(Color.WHITE);
+                buttonDualar.setBackgroundColor(myColor);
             }
         });
 
@@ -110,6 +119,9 @@ public class MainActivity extends AppCompatActivity {
 
                 Intent intent = new Intent(v.getContext(), YaglarActivity.class);
                 startActivity(intent);
+
+                buttonTaslar.setTextColor(Color.WHITE);
+                buttonTaslar.setBackgroundColor(myColor);
             }
         });
 
@@ -129,6 +141,9 @@ public class MainActivity extends AppCompatActivity {
 
                 Intent intent = new Intent(v.getContext(), CaylarActivity.class);
                 startActivity(intent);
+
+                buttonCaylar.setTextColor(Color.WHITE);
+                buttonCaylar.setBackgroundColor(myColor);
             }
         });
 
@@ -148,6 +163,9 @@ public class MainActivity extends AppCompatActivity {
 
                 Intent intent = new Intent(v.getContext(), BMI_Activity.class);
                 startActivity(intent);
+
+                buttonBMI.setTextColor(Color.WHITE);
+                buttonBMI.setBackgroundColor(myColor);
             }
         });
 
@@ -167,6 +185,9 @@ public class MainActivity extends AppCompatActivity {
 
                 Intent intent = new Intent(v.getContext(), BazalActivity.class);
                 startActivity(intent);
+
+                buttonBazal.setTextColor(Color.WHITE);
+                buttonBazal.setBackgroundColor(myColor);
             }
         });
 
@@ -186,6 +207,9 @@ public class MainActivity extends AppCompatActivity {
 
                 Intent intent = new Intent(v.getContext(), YagOraniActivity.class);
                 startActivity(intent);
+
+                buttonyagOrani.setTextColor(Color.WHITE);
+                buttonyagOrani.setBackgroundColor(myColor);
             }
         });
 
@@ -205,6 +229,9 @@ public class MainActivity extends AppCompatActivity {
 
                 Intent intent = new Intent(v.getContext(), GunlukKaloriActivity.class);
                 startActivity(intent);
+
+                buttonKalori.setTextColor(Color.WHITE);
+                buttonKalori.setBackgroundColor(myColor);
             }
         });
     }

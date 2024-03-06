@@ -3,18 +3,29 @@ package com.example.sifauygulamasi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Objects;
+
+
 
 public class BitkilerActivity extends AppCompatActivity {
 
@@ -24,10 +35,10 @@ public class BitkilerActivity extends AppCompatActivity {
     Button buttonDualar;
     Button buttonYaglar;
     Button buttonCaylar;
-    Button buttonanaSayfa;
-    Button buttonTemizle;
-    Button buttonEkle;
-    ListView plantList;
+    Button buttonVeriEkle;
+    EditText editTextAra;
+    Button buttonAra;
+    ListView bitkilerList;
     ArrayList<String> listItem;
     ArrayAdapter adapter;
     int myColor = Color.parseColor("#4CAF50");
@@ -38,7 +49,7 @@ public class BitkilerActivity extends AppCompatActivity {
         setContentView(R.layout.activity_bitkiler);
 
         db = new DatabaseHelper(this);
-        plantList = findViewById(R.id.listView);
+        bitkilerList = findViewById(R.id.listView);
         listItem = new ArrayList<>();
 
         buttonBitkiler = findViewById(R.id.buttonBitkiler);
@@ -46,14 +57,48 @@ public class BitkilerActivity extends AppCompatActivity {
         buttonDualar = findViewById(R.id.buttonDualar);
         buttonYaglar = findViewById(R.id.buttonYaglar);
         buttonCaylar = findViewById(R.id.buttonCaylar);
-        buttonanaSayfa = findViewById(R.id.buttonAnaSayfa);
-        buttonEkle = findViewById(R.id.buttonEkle);
-        buttonTemizle = findViewById(R.id.buttonTemizle);
+        buttonVeriEkle = findViewById(R.id.buttonVeriEkle);
+        editTextAra = findViewById(R.id.editTextAra);
+        buttonAra = findViewById(R.id.buttonSearch);
 
         viewData();
 
         setButtonSelected(buttonBitkiler);
         Objects.requireNonNull(getSupportActionBar()).setTitle("Şifacı - Bitkiler");
+
+        bitkilerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                String selectedTitle = parent.getItemAtPosition(position).toString();
+                Cursor cursor = db.getDataByTitle(selectedTitle, "Bitkiler");
+
+                if (cursor != null && cursor.moveToFirst()) {
+                    int nameColumnIndex = cursor.getColumnIndex("Name");
+                    int descriptionColumnIndex = cursor.getColumnIndex("Description");
+
+                    if (nameColumnIndex != -1 && descriptionColumnIndex != -1) {
+                        String title = cursor.getString(nameColumnIndex);
+                        String description = cursor.getString(descriptionColumnIndex);
+
+                        Intent intent = new Intent(BitkilerActivity.this, GosterActivity.class);
+                        intent.putExtra("Name", title);
+                        intent.putExtra("Description", description);
+                        startActivity(intent);
+                    } else {
+                        Log.e("BitkilerActivity", "Belirtilen sütun adları bulunamadı.");
+                    }
+
+                    cursor.close();
+                }
+            }
+        });
+
+        buttonAra.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                searchByName();
+            }
+        });
 
         buttonBitkiler.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -151,10 +196,10 @@ public class BitkilerActivity extends AppCompatActivity {
             }
         });
 
-        buttonanaSayfa.setOnClickListener(new View.OnClickListener() {
+        buttonVeriEkle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                setButtonSelected(buttonanaSayfa);
+                setButtonSelected(buttonVeriEkle);
 
                 buttonTaslar.setTextColor(Color.WHITE);
                 buttonTaslar.setBackgroundColor(myColor);
@@ -167,54 +212,10 @@ public class BitkilerActivity extends AppCompatActivity {
                 buttonBitkiler.setTextColor(Color.WHITE);
                 buttonBitkiler.setBackgroundColor(myColor);
 
-                Intent intent = new Intent(v.getContext(), MainActivity.class);
+                Intent intent = new Intent(v.getContext(), AddActivity.class);
+
+                intent.putExtra("kategori", "Bitkiler");
                 startActivity(intent);
-            }
-        });
-
-        buttonEkle.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                setButtonSelected(buttonEkle);
-
-                buttonTaslar.setTextColor(Color.WHITE);
-                buttonTaslar.setBackgroundColor(myColor);
-                buttonCaylar.setTextColor(Color.WHITE);
-                buttonCaylar.setBackgroundColor(myColor);
-                buttonYaglar.setTextColor(Color.WHITE);
-                buttonYaglar.setBackgroundColor(myColor);
-                buttonDualar.setTextColor(Color.WHITE);
-                buttonDualar.setBackgroundColor(myColor);
-                buttonBitkiler.setTextColor(Color.WHITE);
-                buttonBitkiler.setBackgroundColor(myColor);
-
-                db.insertData("Acı Bakla", "Semen Lupini Şeker hastalığına karşı kullanılır.", "Bitkiler");
-                db.insertData("Acı elma yağı", "Salvia Triloba Gaz söktürücü, midevi, ter kesici, idrar artırıcıdır. Haricen yara iyi edici ve antiseptik olarak kullanılır.", "Bitkiler");
-                db.insertData("Acı yonga", "Lignum Quassiae İştah açıcı, kuvvet verici, kurt ve ateş düşürücü", "Bitkiler");
-                db.insertData("Acıağaç", "İştah açar, hazmı kolaylaştırır. Ateşi düşürür. Tükürük ifrazatını arttırır. Mide, bağırsak, karaciğer ve böbreklerin çalışmasını düzenler. Böbrek sancılarını keser, taşların düşürülmesine yardımcı olur. Bağırsak kurtlarını döker. Kanamaları durdurur. Haşarat kaçırıcı olarak da kullanılır. Fazla kullanılacak olursa; baş dönmesi, mide bulantısı ve kusma yapar.", "Bitkiler");
-                db.insertData("Adaçayı", "Mide va bağırsak gazlarını giderir. Mide bulantısını keser. Hazım sisteminin düzenli çalışmasını sağlar. Boğaz, bademcik ve dişeti iltihaplarını giderir. Göğsü yumuşatır. Astımdaki sıkıntıları geçirir. İdrar ve ter söktürür. Banyo suyuna katılıp yıkanılırsa; zindelik verir. Günde, 3 kahve fincanından fazla içilmemelidir.", "Bitkiler");
-                db.insertData("Adamotu", "Zehirli bir bitkidir. Ağrı kesici, yatıştırıcı, cinsel gücü arttırıcı etkileri vardır. Rast gele kullanıldığında zararlı olur.\n", "Bitkiler");
-                db.insertData("Ahlat (Yabanarmudu )", "Meyveleri ishal keser. Zehirli hayvan sokmalarinda, filizi ezilip yaraya sürülür.\n", "Bitkiler");
-            }
-        });
-        buttonTemizle.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                setButtonSelected(buttonTemizle);
-
-                buttonTaslar.setTextColor(Color.WHITE);
-                buttonTaslar.setBackgroundColor(myColor);
-                buttonCaylar.setTextColor(Color.WHITE);
-                buttonCaylar.setBackgroundColor(myColor);
-                buttonYaglar.setTextColor(Color.WHITE);
-                buttonYaglar.setBackgroundColor(myColor);
-                buttonDualar.setTextColor(Color.WHITE);
-                buttonDualar.setBackgroundColor(myColor);
-                buttonBitkiler.setTextColor(Color.WHITE);
-                buttonBitkiler.setBackgroundColor(myColor);
-
-                db.deleteAllData("Bitkiler");
-
             }
         });
     }
@@ -236,7 +237,35 @@ public class BitkilerActivity extends AppCompatActivity {
             }
 
             adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, listItem);
-            plantList.setAdapter(adapter);
+            bitkilerList.setAdapter(adapter);
+        }
+    }
+
+    private void searchByName() {
+        String searchQuery = editTextAra.getText().toString().trim();
+
+        if (searchQuery.isEmpty()) {
+            viewData();
+            return;
+        }
+
+        Cursor cursor = db.searchByName(searchQuery, "Bitkiler");
+
+        if (cursor != null && cursor.moveToFirst()) {
+            listItem.clear();
+
+            do {
+                listItem.add(cursor.getString(1));
+            } while (cursor.moveToNext());
+
+            adapter.notifyDataSetChanged();
+        } else {
+            Toast.makeText(this, "Sonuç bulunamadı.", Toast.LENGTH_SHORT).show();
+        }
+
+        if (cursor != null) {
+            cursor.close();
         }
     }
 }
+

@@ -5,42 +5,41 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:gravity="center_horizontal"
-    tools:context=".YaglarActivity">
-    <LinearLayout
-        android:layout_width="match_parent"
+    android:gravity="center"
+    tools:context=".GosterActivity">
+
+    <TextView
+        android:id="@+id/baslikTextView"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
-    </LinearLayout>
+        android:text="Başlık"
+        android:textSize="24sp"
+        android:gravity="center"
+        android:textColor="#000000"
+        android:padding="8dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginTop="20dp" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
+    <TextView
+        android:id="@+id/aciklamaTextView"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginTop="8dp">
+        android:text="Açıklama"
+        android:textSize="14sp"
+        android:gravity="center"
+        android:textColor="#000000"
+        android:padding="12dp"
+        android:layout_marginBottom="16dp" />
 
-        <EditText
-            android:id="@+id/editTextAra"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content"
-            android:hint="Ara"/>
-
-        <Button
-            android:id="@+id/buttonSearch"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Ara"
-            android:textSize="11sp"
-            android:background="#4CAF50"
-            android:textColor="#FFFFFF"/>
-    </LinearLayout>
-
-    <ListView
-        android:id="@+id/listView"
-        android:layout_width="match_parent"
+    <Button
+        android:id="@+id/buttonBos"
+        android:layout_width="3dp"
+        android:layout_height="151dp"
+        android:layout_margin="4dp"
         android:layout_weight="1"
-        android:layout_height="wrap_content"/>
+        android:gravity="center"
+        android:text=""
+        android:textSize="11sp" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -108,11 +107,11 @@
             android:textColor="#FFFFFF"/>
 
         <Button
-            android:id="@+id/buttonVeriEkle"
+            android:id="@+id/buttonAnaSayfa"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"
-            android:text="Ekle"
+            android:text="Anasayfa"
             android:textSize="11sp"
             android:layout_margin="4dp"
             android:gravity="center"

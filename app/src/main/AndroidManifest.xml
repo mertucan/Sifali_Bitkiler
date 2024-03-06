@@ -58,6 +58,14 @@
         <activity android:name=".GunlukKaloriActivity">
 
         </activity>
+
+        <activity android:name=".GosterActivity">
+
+        </activity>
+
+        <activity android:name=".AddActivity">
+
+        </activity>
     </application>
 
 </manifest>
