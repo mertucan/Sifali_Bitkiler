@@ -42,6 +42,8 @@ public class YagOraniActivity extends AppCompatActivity {
             public void onClick(View v) {
                 buttonBack.setTextColor(myColor);
                 buttonBack.setBackgroundColor(Color.WHITE);
+                btnCalculate.setTextColor(Color.WHITE);
+                btnCalculate.setBackgroundColor(myColor);
                 Intent intent = new Intent(v.getContext(), MainActivity.class);
                 startActivity(intent);
             }

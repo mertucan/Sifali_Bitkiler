@@ -4,12 +4,16 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.Toast;
 
+import java.util.ArrayList;
 import java.util.Objects;
 
 public class CaylarActivity extends AppCompatActivity {
@@ -21,7 +25,11 @@ public class CaylarActivity extends AppCompatActivity {
     Button buttonYaglar;
     Button buttonCaylar;
     Button buttonanaSayfa;
+    Button buttonEkle;
+    Button buttonTemizle;
     ListView plantList;
+    ArrayList<String> listItem;
+    ArrayAdapter adapter;
     int myColor = Color.parseColor("#4CAF50");
 
     @SuppressLint("WrongViewCast")
@@ -32,6 +40,7 @@ public class CaylarActivity extends AppCompatActivity {
 
         db = new DatabaseHelper(this);
         plantList = findViewById(R.id.listView);
+        listItem = new ArrayList<>();
 
         buttonBitkiler = findViewById(R.id.buttonBitkiler);
         buttonTaslar = findViewById(R.id.buttonTaslar);
@@ -39,6 +48,10 @@ public class CaylarActivity extends AppCompatActivity {
         buttonYaglar = findViewById(R.id.buttonYaglar);
         buttonCaylar = findViewById(R.id.buttonCaylar);
         buttonanaSayfa = findViewById(R.id.buttonAnaSayfa);
+        buttonEkle = findViewById(R.id.buttonEkle);
+        buttonTemizle = findViewById(R.id.buttonTemizle);
+
+        viewData();
 
         setButtonSelected(buttonCaylar);
         Objects.requireNonNull(getSupportActionBar()).setTitle("Şifacı - Çaylar");
@@ -156,10 +169,76 @@ public class CaylarActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        buttonEkle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setButtonSelected(buttonEkle);
+
+                buttonTaslar.setTextColor(Color.WHITE);
+                buttonTaslar.setBackgroundColor(myColor);
+                buttonCaylar.setTextColor(Color.WHITE);
+                buttonCaylar.setBackgroundColor(myColor);
+                buttonYaglar.setTextColor(Color.WHITE);
+                buttonYaglar.setBackgroundColor(myColor);
+                buttonDualar.setTextColor(Color.WHITE);
+                buttonDualar.setBackgroundColor(myColor);
+                buttonBitkiler.setTextColor(Color.WHITE);
+                buttonBitkiler.setBackgroundColor(myColor);
+
+                db.insertData("Ahududu Çayı", "", "Caylar");
+                db.insertData("Akasya Çayı", "", "Caylar");
+                db.insertData("Akdiken Çayı", "", "Caylar");
+                db.insertData("Alıç Çayı", "", "Caylar");
+                db.insertData("Altınbaşak Çayı", "", "Caylar");
+                db.insertData("Altın Çilek Çayı", "", "Caylar");
+                db.insertData("Amber Çayı", "", "Caylar");
+                db.insertData("Anason Çayı", "", "Caylar");
+                db.insertData("Ardıç Çayı", "", "Caylar");
+                db.insertData("Arpa Çayı", "", "Caylar");
+                db.insertData("Asma Yaprağı Çayı", "", "Caylar");
+            }
+        });
+        buttonTemizle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setButtonSelected(buttonTemizle);
+
+                buttonTaslar.setTextColor(Color.WHITE);
+                buttonTaslar.setBackgroundColor(myColor);
+                buttonCaylar.setTextColor(Color.WHITE);
+                buttonCaylar.setBackgroundColor(myColor);
+                buttonYaglar.setTextColor(Color.WHITE);
+                buttonYaglar.setBackgroundColor(myColor);
+                buttonDualar.setTextColor(Color.WHITE);
+                buttonDualar.setBackgroundColor(myColor);
+                buttonBitkiler.setTextColor(Color.WHITE);
+                buttonBitkiler.setBackgroundColor(myColor);
+
+                db.deleteAllData("Caylar");
+
+            }
+        });
     }
 
     private void setButtonSelected(Button button) {
         button.setTextColor(myColor);
         button.setBackgroundColor(Color.WHITE);
+    }
+
+    private void viewData(){
+        Cursor cursor = db.viewData("Caylar");
+
+        if(cursor.getCount() == 0){
+            Toast.makeText(this, "No data to show.", Toast.LENGTH_SHORT).show();
+        }
+        else{
+            while(cursor.moveToNext()){
+                listItem.add(cursor.getString(1));
+            }
+
+            adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, listItem);
+            plantList.setAdapter(adapter);
+        }
     }
 }

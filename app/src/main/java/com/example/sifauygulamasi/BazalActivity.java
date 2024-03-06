@@ -32,7 +32,7 @@ public class BazalActivity extends AppCompatActivity {
         textViewBMR = findViewById(R.id.textViewResult);
         btnCalculateBMR = findViewById(R.id.btnCalculateBMR);
 
-        Objects.requireNonNull(getSupportActionBar()).setTitle("Şifacı - Bazal Metabolizma Hızı Hesaplama");
+        Objects.requireNonNull(getSupportActionBar()).setTitle("Şifacı - Bazal Metabolizma Hesaplama");
 
         buttonBack.setTextColor(Color.WHITE);
         buttonBack.setBackgroundColor(myColor);

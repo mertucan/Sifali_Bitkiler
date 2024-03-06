@@ -28,7 +28,6 @@ public class BitkilerActivity extends AppCompatActivity {
     Button buttonTemizle;
     Button buttonEkle;
     ListView plantList;
-
     ArrayList<String> listItem;
     ArrayAdapter adapter;
     int myColor = Color.parseColor("#4CAF50");
@@ -189,14 +188,13 @@ public class BitkilerActivity extends AppCompatActivity {
                 buttonBitkiler.setTextColor(Color.WHITE);
                 buttonBitkiler.setBackgroundColor(myColor);
 
-                boolean isInserted = db.insertData("Acı Bakla", "Semen Lupini Şeker hastalığına karşı kullanılır.");
-
-                if (isInserted) {
-                    Toast.makeText(BitkilerActivity.this, "Veri başarıyla eklendi", Toast.LENGTH_SHORT).show();
-                    viewData();
-                } else {
-                    Toast.makeText(BitkilerActivity.this, "Veri eklenirken hata oluştu", Toast.LENGTH_SHORT).show();
-                }
+                db.insertData("Acı Bakla", "Semen Lupini Şeker hastalığına karşı kullanılır.", "Bitkiler");
+                db.insertData("Acı elma yağı", "Salvia Triloba Gaz söktürücü, midevi, ter kesici, idrar artırıcıdır. Haricen yara iyi edici ve antiseptik olarak kullanılır.", "Bitkiler");
+                db.insertData("Acı yonga", "Lignum Quassiae İştah açıcı, kuvvet verici, kurt ve ateş düşürücü", "Bitkiler");
+                db.insertData("Acıağaç", "İştah açar, hazmı kolaylaştırır. Ateşi düşürür. Tükürük ifrazatını arttırır. Mide, bağırsak, karaciğer ve böbreklerin çalışmasını düzenler. Böbrek sancılarını keser, taşların düşürülmesine yardımcı olur. Bağırsak kurtlarını döker. Kanamaları durdurur. Haşarat kaçırıcı olarak da kullanılır. Fazla kullanılacak olursa; baş dönmesi, mide bulantısı ve kusma yapar.", "Bitkiler");
+                db.insertData("Adaçayı", "Mide va bağırsak gazlarını giderir. Mide bulantısını keser. Hazım sisteminin düzenli çalışmasını sağlar. Boğaz, bademcik ve dişeti iltihaplarını giderir. Göğsü yumuşatır. Astımdaki sıkıntıları geçirir. İdrar ve ter söktürür. Banyo suyuna katılıp yıkanılırsa; zindelik verir. Günde, 3 kahve fincanından fazla içilmemelidir.", "Bitkiler");
+                db.insertData("Adamotu", "Zehirli bir bitkidir. Ağrı kesici, yatıştırıcı, cinsel gücü arttırıcı etkileri vardır. Rast gele kullanıldığında zararlı olur.\n", "Bitkiler");
+                db.insertData("Ahlat (Yabanarmudu )", "Meyveleri ishal keser. Zehirli hayvan sokmalarinda, filizi ezilip yaraya sürülür.\n", "Bitkiler");
             }
         });
         buttonTemizle.setOnClickListener(new View.OnClickListener() {
