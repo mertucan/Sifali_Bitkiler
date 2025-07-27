@@ -213,7 +213,17 @@ Herhangi bir kategoride arama yapmak için:
 
 ## 📱 Ekran Görüntüleri
 
-<img>
+### İkon Fotoğrafı
+
+![WhatsApp Görsel 2025-07-27 saat 22 27 17_3b94b28e](https://github.com/user-attachments/assets/970143cd-114e-4235-9bb9-9d36b38d05f0)
+
+### Ana Ekran
+
+![WhatsApp Görsel 2025-07-27 saat 22 27 17_f478f81c](https://github.com/user-attachments/assets/ddbec669-d007-49d0-a106-01e8a8619f90)
+
+### BMI Hesaplama Ekranı
+
+![WhatsApp Görsel 2025-07-27 saat 22 27 17_bca2c0a4](https://github.com/user-attachments/assets/3029a1b6-d9c6-4263-bbae-5b68cf3ed28f)
 
 ### Ana Menü
 Ana menü, modern ve kullanıcı dostu bir tasarıma sahiptir. Yeşil renk temasıyla doğallığı vurgulayan arayüz, 9 ana kategoriyi grid düzeninde sunar.
